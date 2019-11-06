@@ -2,7 +2,7 @@ FROM  php:7.2.24-fpm
 MAINTAINER Nothing@126.com
 LABEL Author="Nothing"
 LABEL Version="7.2.24-fpm"
-LABEL Description="PHP FPM 7.2.4 镜像. All extensions."
+LABEL Description="PHP FPM 7.2.4 镜像. All extensions.  自动构建"
 
 # 官方版本默认安装扩展: 
 # Core, ctype, curl
