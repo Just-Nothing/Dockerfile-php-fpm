@@ -193,4 +193,6 @@ Run curl -sS https://getcomposer.org/installer | php \
     ) \
     && rm -r swoole \
     && docker-php-ext-enable swoole
-	
+
+#修改 composer 镜像为阿里云
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
