@@ -20,6 +20,9 @@ LABEL Description="PHP FPM 7.2.4 镜像. All extensions.  自动构建"
 # xml, xmlreader, xmlwriter
 # zlib
 
+RUN apt-get update && apt-get install -y curl wget git zip unzip less vim procps lsof tcpdump htop openssl libz-dev libssl-dev libnghttp2-dev libpcre3-dev libjpeg-dev libpng-dev libfreetype6-dev
+
+RUN cp /usr/local/etc/php/php.ini-production  /usr/local/etc/php/php.ini
 
 # 1.0.2 增加 bcmath, calendar, exif, gettext, sockets, dba, 
 # mysqli, pcntl, pdo_mysql, shmop, sysvmsg, sysvsem, sysvshm 扩展
@@ -170,3 +173,24 @@ docker-php-ext-configure odbc --with-unixODBC=shared,/usr; \
 docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr; \
 docker-php-ext-install odbc pdo_odbc; \
 docker-php-source delete
+
+
+# Install composer
+Run curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && composer self-update --clean-backups \
+# Install swoole extension
+    && wget https://github.com/swoole/swoole-src/archive/v4.4.5.tar.gz -O swoole.tar.gz \
+    && mkdir -p swoole \
+    && tar -xf swoole.tar.gz -C swoole --strip-components=1 \
+    && rm swoole.tar.gz \
+    && ( \
+        cd swoole \
+        && phpize \
+        && ./configure --enable-mysqlnd --enable-sockets --enable-openssl --enable-http2 \
+        && make -j$(nproc) \
+        && make install \
+    ) \
+    && rm -r swoole \
+    && docker-php-ext-enable swoole \
+	
