@@ -192,5 +192,5 @@ Run curl -sS https://getcomposer.org/installer | php \
         && make install \
     ) \
     && rm -r swoole \
-    && docker-php-ext-enable swoole \
+    && docker-php-ext-enable swoole
 	
