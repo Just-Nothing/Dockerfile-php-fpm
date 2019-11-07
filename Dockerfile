@@ -179,6 +179,9 @@ docker-php-source delete
 Run curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && composer self-update --clean-backups \
+#修改 composer 镜像为阿里云
+
+    && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
 # Install swoole extension
     && wget https://github.com/swoole/swoole-src/archive/v4.4.5.tar.gz -O swoole.tar.gz \
     && mkdir -p swoole \
@@ -194,5 +197,4 @@ Run curl -sS https://getcomposer.org/installer | php \
     && rm -r swoole \
     && docker-php-ext-enable swoole
 
-#修改 composer 镜像为阿里云
-composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+
