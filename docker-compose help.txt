@@ -1,0 +1,56 @@
+Define and run multi-container applications with Docker.
+
+Usage:
+  docker-compose [-f <arg>...] [options] [COMMAND] [ARGS...]
+  docker-compose -h|--help
+
+Options:
+  -f, --file FILE             指定一个docker-compose 文件
+                              (默认: docker-compose.yml)
+  -p, --project-name NAME     指定项目名称
+                              (default: directory name)
+  --verbose                   Show more output
+  --log-level LEVEL           Set log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  --no-ansi                   Do not print ANSI control characters
+  -v, --version               Print version and exit
+  -H, --host HOST             Daemon socket to connect to
+
+  --tls                       Use TLS; implied by --tlsverify
+  --tlscacert CA_PATH         Trust certs signed only by this CA
+  --tlscert CLIENT_CERT_PATH  Path to TLS certificate file
+  --tlskey TLS_KEY_PATH       Path to TLS key file
+  --tlsverify                 Use TLS and verify the remote
+  --skip-hostname-check       Don't check the daemon's hostname against the
+                              name specified in the client certificate
+  --project-directory PATH    Specify an alternate working directory
+                              (default: the path of the Compose file)
+  --compatibility             If set, Compose will attempt to convert deploy
+                              keys in v3 files to their non-Swarm equivalent
+
+Commands:
+  build              构建或者重新构建服务
+  bundle             通过Compose文件生成Docker 包
+  config             验证和查看Compose文件
+  create             创建服务
+  down               停止并移除容器网络镜像和卷
+  events             从容器中实时接收事件
+  exec               在一个运行的容器中执行命令
+  help               Get help on a command
+  images             列出所有镜像
+  kill               关闭所有容器
+  logs               查看容器的日志输出
+  pause              暂停容器
+  port               输出公共端口绑定
+  ps                 容器运行状态
+  pull               获取服务镜像
+  push               推送服务镜像
+  restart            重启服务
+  rm                 移除停止的容器
+  run                Run a one-off command
+  scale              设置服务的容器数量
+  start              启动服务
+  stop               停止服务
+  top                显示正在运行的进程
+  unpause            恢复暂停的容器
+  up                 创建并启动容器
+  version            显示 Docker-Compose 版本信息

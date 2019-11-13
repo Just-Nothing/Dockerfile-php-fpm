@@ -1,0 +1,5 @@
+启动容器并挂载硬盘
+docker run -p 80:18306 -v /DockerSwoft:/var/www/outsite --name swoft swoft/swoft  tail -f /dev/null
+docker run -p 80:18306 -v /DockerSwoft:/var/www/swoft --name swoft2 swoft/swoft  tail -f /dev/null
+
+docker run -p 80:18306 -v /DockerSwoft:/var/www/swoft --name swoft swoft/swoft  tail -f /dev/null

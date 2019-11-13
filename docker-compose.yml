@@ -1,0 +1,58 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:5.7.28
+    container_name: mysql_container
+    ports:
+      - "3306:3306"
+    volumes:
+#      - ${MYSQL5_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+#       若提示/var/lib/mysql/权限不足 则需要关闭SELinux   使用 setenforce 0
+      - /home/docker/mysql/data/:/var/lib/mysql/:rw
+    restart: always
+    networks:
+      - default
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      TZ: "Asia/Shanghai"
+      
+  php-fpm:
+    image: registry.cn-shenzhen.aliyuncs.com/no_thing/dockerfile-php-fpm:0.0.2
+    container_name: php-fpm_container
+#    expose:
+#      - 9000
+#   为容器添加host 映射
+    extra_hosts:
+      - "www.site1.com:172.17.0.1"
+    links:
+    # links 使用服务名称
+      - mysql:mysql
+    volumes:
+      - /home/docker/www:/var/www/html:rw
+    restart: always
+    networks:
+      - default
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      TZ: "Asia/Shanghai"
+ 
+  nginx:
+    image: nginx:1.17.5
+    container_name: nginx_container
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - php-fpm:php-fpm
+    volumes:
+      - /home/docker/nginx/conf/:/etc/nginx/conf.d/:rw
+      - /home/docker/www/:/var/www/html:rw
+      - /home/docker/nginx/log/:/var/log/nginx/:rw
+      - /home/docker/nginx/ssl/:/etc/nginx/ssl/:rw
+    restart: always
+    networks:
+      - default
+    environment:
+      TZ: "Asia/Shanghai"
+networks:
+  default:

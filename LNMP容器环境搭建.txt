@@ -1,0 +1,31 @@
+从下往上 顺序
+	Mysql
+		端口映射  3306
+		挂载点设置	
+			1.数据文件存储位置  本地:/home/docker/data/mysql1106/  容器:/var/lib/mysql/
+	
+	创建容器 暴露端口  挂载目录  设置环境变量
+	docker run -d -e TZ="Asia/Shanghai" --name mysql1106 -p 3306:3306 -v /home/docker/data/mysql/:/var/lib/mysql/  -e MYSQL_ROOT_PASSWORD=root --privileged=true  mysql:5.7.28
+	进入mysql容器
+	docker exec -it mysql1106 /bin/bash
+
+	php-fpm
+		端口映射   9000的端口其实不用映射   可以相互找到的
+		挂载点设置
+			1.站点文件挂载点		容器内目录是 /var/www/html
+		连接到mysql
+	
+	docker build -t="php-fpm7.2.24" .
+	
+	docker run -d -e TZ="Asia/Shanghai" -p 9000:9000 --name php-fpm1106 -v  /home/docker/www:/var/www/html  --link mysql1106:mysql --privileged=true 3dca1c0a46c6
+	
+	
+
+	Nginx
+		端口映射    80端口需要映射
+		挂载点设置	
+			1.配置文件挂载点			容器内目录 		/etc/nginx/conf.d/
+			2.站点文件挂载点,需要和php保持一致	   		/var/www/html/
+		连接到php-fpm
+	
+	docker run -d --link php-fpm1106:php-fpm  -p 80:80 -v /home/docker/conf/nginx:/etc/nginx/conf.d/  -v /home/docker/www:/var/www/html --name nginx --privileged=true  nginx:1.17.5
