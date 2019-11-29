@@ -3,3 +3,43 @@ docker run -p 80:18306 -v /DockerSwoft:/var/www/outsite --name swoft swoft/swoft
 docker run -p 80:18306 -v /DockerSwoft:/var/www/swoft --name swoft2 swoft/swoft  tail -f /dev/null
 
 docker run -p 80:18306 -v /DockerSwoft:/var/www/swoft --name swoft swoft/swoft  tail -f /dev/null
+
+
+启动替换目录  需要加上 --privileged=true 不然容器内会提示权限不足 
+docker run --privileged=true -d -p 18306:18306 -v /home/docker/www/swoft:/var/www/swoft --name swoft swoft/swoft  tail -f /dev/null
+
+在宿主机目录/home/docker/www下拉取git代码
+git clone https://github.com/swoft-cloud/swoft
+
+查看容器内的php版本
+docker exec 8c php -v
+
+容器内composer版本
+docker exec 8c composer -V
+
+设置中国镜像
+docker exec 8c composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+
+拉取swoft
+docker exec 8c composer create-project swoft/swoft swoft
+
+复制文件到目录
+
+
+查看swoft版本
+docker exec 8c php /var/www/swoft/bin/swoft  -V
+docker exec 8c php bin/swoft  -V
+
+
+启动服务
+docker exec 8c php /var/www/swoft/bin/swoft  http:start
+
+重启服务
+docker exec 8c php /var/www/swoft/bin/swoft  http:restart
+
+生成实体必须进入容器内执行
+
+
+
+查看容器内进程 可以使用kill 杀死
+docker exec 8c ps -ef
